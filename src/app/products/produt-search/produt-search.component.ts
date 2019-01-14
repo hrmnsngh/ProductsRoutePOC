@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'pm-produt-search',
@@ -10,12 +11,13 @@ export class ProdutSearchComponent implements OnInit {
   pageTitle = 'Product Search';
   prdName: string;
   prdCd: string;
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit() {
   }
 
   search() {
     // Search Logic
+    this.router.navigate(['/products', { name: this.prdName, code: this.prdCd}]);
   }
 }

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { Product } from './product';
 import { ProductService } from './product.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   templateUrl: './product-list.component.html',
@@ -26,9 +27,18 @@ export class ProductListComponent implements OnInit {
   filteredProducts: Product[] = [];
   products: Product[] = [];
 
-  constructor(private productService: ProductService) { }
+  constructor(private productService: ProductService, private activatedRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
+    const name = this.activatedRoute.snapshot.paramMap.get('name');
+    const code = this.activatedRoute.snapshot.paramMap.get('code');
+    console.log(name + ' ' + code);
+/*     this.activatedRoute.paramMap.subscribe(
+      params => {
+        const name = params.get('name');
+        const code = params.get('code');
+      }
+    ); */
     this.productService.getProducts().subscribe(
       products => {
         this.products = products;

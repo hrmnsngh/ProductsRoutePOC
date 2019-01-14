@@ -15,7 +15,8 @@ import { ProdutSearchComponent } from './produt-search/produt-search.component';
       {path: 'products', component: ProductListComponent},
       {path: 'products/:id', component: ProductDetailComponent},
       {path: 'products/:id/edit', component: ProductEditComponent},
-      {path: 'prouducts/search', component: ProdutSearchComponent}
+      {path: 'prouducts/search', component: ProdutSearchComponent},
+      {path: 'products/:name/:code', component: ProductListComponent}
     ])
   ],
   declarations: [
