@@ -1,0 +1,26 @@
+<div class="card">
+  <div class="card-header">
+    {{pageTitle}}
+  </div>
+  <div class="card-body">
+    <div class="row">
+      <label class="col-md-3">Product Name </label>
+      <input class="col-md-4" type="text" [(ngModel)]="prdName">
+    </div>
+    <div class="row">
+      <label class="col-md-3">Product Code </label>
+      <input class="col-md-4" type="text" [(ngModel)]="prdCd">
+    </div>
+&nbsp;
+    <div class="row">
+        <button class="btn btn-outline-primary" (click)="search()">
+            Search
+          </button>
+          <span class="col-md-2"></span>
+          <button class="btn btn-outline-secondary" [routerLink] = "['/products']">
+      Cancel
+      </button>
+    </div>
+
+  </div>
+</div>
