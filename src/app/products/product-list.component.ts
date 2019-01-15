@@ -30,15 +30,18 @@ export class ProductListComponent implements OnInit {
   constructor(private productService: ProductService, private activatedRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
-    const name = this.activatedRoute.snapshot.paramMap.get('name');
-    const code = this.activatedRoute.snapshot.paramMap.get('code');
-    console.log(name + ' ' + code);
-/*     this.activatedRoute.paramMap.subscribe(
-      params => {
-        const name = params.get('name');
-        const code = params.get('code');
-      }
-    ); */
+/*     const name = this.activatedRoute.snapshot.paramMap.get('name');
+    const code = this.activatedRoute.snapshot.paramMap.get('code'); */
+    this.listFilter = this.activatedRoute.snapshot.queryParamMap.get('filterBy') || '';
+    this.showImage = this.activatedRoute.snapshot.queryParamMap.get('showImage') === 'true';
+    /* console.log('Name and code : ' + name + ' ' + code); */
+    console.log('Query Params, FilterBy : ' + this.listFilter + ' showImage : ' + this.showImage);
+    /*     this.activatedRoute.paramMap.subscribe(
+          params => {
+            const name = params.get('name');
+            const code = params.get('code');
+          }
+        ); */
     this.productService.getProducts().subscribe(
       products => {
         this.products = products;
