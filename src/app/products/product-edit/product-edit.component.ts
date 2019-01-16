@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { MessageService } from '../../messages/message.service';
 
-import { Product } from '../product';
+import { Product, ProductResolved } from '../product';
 import { ProductService } from '../product.service';
 import { ActivatedRoute, Router } from '@angular/router';
 
@@ -18,25 +18,40 @@ export class ProductEditComponent implements OnInit {
   product: Product;
 
   constructor(private productService: ProductService,
-    private messageService: MessageService, private activedRoute: ActivatedRoute, private router: Router) { }
+    private messageService: MessageService, private activatedRoute: ActivatedRoute, private router: Router) { }
 
   ngOnInit(): void {
-    this.activedRoute.paramMap.subscribe(
+/*     this.activatedRoute.paramMap.subscribe(
       params => {
         const id = params.get('id');
         // tslint:disable-next-line:radix
         this.getProduct(parseInt(id));
       }
+    ); */
+
+    // Route Resolver using snapshot approach
+    /* const resolvedData = this.activatedRoute.snapshot.data['resolvedData'];
+    this.errorMessage = resolvedData.error;
+    this.onProductRetrieved(resolvedData.product); */
+
+    // Route Resolver using Route Observable
+    this.activatedRoute.data.subscribe(
+      // tslint:disable-next-line:no-shadowed-variable
+      data => {
+        const resolvedData: ProductResolved = data['resolvedData'];
+        this.errorMessage = resolvedData.error;
+        this.onProductRetrieved(resolvedData.product);
+      }
     );
   }
 
-  getProduct(id: number): void {
+/*   getProduct(id: number): void {
     this.productService.getProduct(id)
       .subscribe(
         (product: Product) => this.onProductRetrieved(product),
         (error: any) => this.errorMessage = <any>error
       );
-  }
+  } */
 
   onProductRetrieved(product: Product): void {
     this.product = product;
