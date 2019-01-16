@@ -16,18 +16,19 @@ export class ProductEditComponent implements OnInit {
   errorMessage: string;
 
   product: Product;
+  dataIsValid: { [key: string]: boolean };
 
   constructor(private productService: ProductService,
     private messageService: MessageService, private activatedRoute: ActivatedRoute, private router: Router) { }
 
   ngOnInit(): void {
-/*     this.activatedRoute.paramMap.subscribe(
-      params => {
-        const id = params.get('id');
-        // tslint:disable-next-line:radix
-        this.getProduct(parseInt(id));
-      }
-    ); */
+    /*     this.activatedRoute.paramMap.subscribe(
+          params => {
+            const id = params.get('id');
+            // tslint:disable-next-line:radix
+            this.getProduct(parseInt(id));
+          }
+        ); */
 
     // Route Resolver using snapshot approach
     /* const resolvedData = this.activatedRoute.snapshot.data['resolvedData'];
@@ -45,13 +46,13 @@ export class ProductEditComponent implements OnInit {
     );
   }
 
-/*   getProduct(id: number): void {
-    this.productService.getProduct(id)
-      .subscribe(
-        (product: Product) => this.onProductRetrieved(product),
-        (error: any) => this.errorMessage = <any>error
-      );
-  } */
+  /*   getProduct(id: number): void {
+      this.productService.getProduct(id)
+        .subscribe(
+          (product: Product) => this.onProductRetrieved(product),
+          (error: any) => this.errorMessage = <any>error
+        );
+    } */
 
   onProductRetrieved(product: Product): void {
     this.product = product;
@@ -82,8 +83,17 @@ export class ProductEditComponent implements OnInit {
     }
   }
 
+  isValid(path?: string): boolean {
+    this.validate();
+    if (path) {
+      return this.dataIsValid[path];
+    }
+    return (this.dataIsValid &&
+      Object.keys(this.dataIsValid).every(d => this.dataIsValid[d] === true));
+  }
+
   saveProduct(): void {
-    if (true === true) {
+    if (this.isValid()) {
       if (this.product.id === 0) {
         this.productService.createProduct(this.product)
           .subscribe(
@@ -110,4 +120,23 @@ export class ProductEditComponent implements OnInit {
     // Navigate back to the product list
     this.router.navigateByUrl('/products');
   }
+
+  validate(): void {
+    this.dataIsValid = {};
+
+    // info tab
+    if (this.product.productName && this.product.productName.length >= 3 && this.product.category) {
+      this.dataIsValid['info'] = true;
+    } else {
+      this.dataIsValid['info'] = false;
+    }
+    // tag tab
+    if (this.product.category && this.product.category.length >= 3) {
+      this.dataIsValid['tags'] = true;
+    } else {
+      this.dataIsValid['tags'] = false;
+    }
+  }
+
+
 }
